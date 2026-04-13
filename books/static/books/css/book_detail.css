@@ -1,0 +1,1213 @@
+/* Глобальные стили */
+:root {
+    --main-color: #C71585;           /* Основной акцентный цвет (MediumVioletRed) */
+    --main-color-light: #e0409f;     /* Светлый вариант основного цвета */
+    --bg-color: #121212;             /* Цвет фона страницы */
+    --text-color: #f5f5f5;           /* Основной цвет текста */
+    --text-secondary: #bdc1c6;       /* Вторичный цвет текста */
+    --card-bg: rgba(25, 27, 31, 0.88); /* Фон карточек с прозрачностью */
+    --card-bg-light: rgba(35, 38, 43, 0.8); /* Светлый вариант фона карточек */
+    --shadow-color: rgba(0, 0, 0, 0.4); /* Цвет теней */
+    --border-color: rgba(245, 245, 245, 0.1); /* Цвет границ */
+    --success-color: #2ecc71;        /* Цвет успешных уведомлений */
+    --error-color: #e74c3c;          /* Цвет ошибок */
+    --rating-color: #f39c12;         /* Цвет рейтинга */
+    --review-bg: rgba(44, 47, 51, 0.6); /* Фон отзывов */
+}
+
+/* Плавная прокрутка страницы */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Основные стили страницы */
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+#page-background {
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    z-index: -2; /* Ниже оверлея */
+    background-size: cover;
+    background-position: center;
+    filter: blur(30px) brightness(0.6);
+    transform: scale(1.1);
+    transition: background-color 0.5s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Увеличили прозрачность */
+    /* Убрали background-blend-mode */
+}
+
+#page-overlay {
+    display: none !important; /* Для теста */
+}
+
+/* Основной контейнер с эффектом поднятия при наведении */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    backdrop-filter: blur(15px);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+/* Разметка страницы с книгой */
+.book-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+/* Секция с обложкой книги */
+.book-cover-section {
+    width: 300px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+}
+
+/* Контейнер обложки с эффектом поднятия */
+.book-cover-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+.book-cover-container:hover {
+    transform: translateY(-10px) scale(1.03);
+}
+
+.book-cover-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Мета-информация о книге */
+.book-meta {
+    margin: 25px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+/* Элементы мета-информации */
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: rgba(40, 44, 49, 0.8);
+    border-radius: 10px;
+    border-left: 3px solid var(--main-color);
+    transition: all 0.3s ease;
+}
+
+.meta-item:hover {
+    background: rgba(50, 55, 60, 0.9);
+    transform: translateY(-3px);
+}
+
+.meta-item i {
+    color: var(--main-color);
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Кнопки статуса чтения */
+.book-status-container {
+    margin-top: 25px;
+    position: relative;
+}
+
+/* Основная кнопка статуса */
+.status-main-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4f545c, #3a3f44);
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.status-main-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Варианты кнопок статуса */
+.status-main-button.reading {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.status-main-button.want-to-read {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.status-main-button.read {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+/* Выпадающее меню статусов */
+.status-buttons {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    position: absolute;
+    width: 91%;
+    background: rgba(40, 44, 49, 0.95);
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    z-index: 10;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Кнопки в меню статусов */
+.status-btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+}
+
+.status-btn i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+/* Стили для разных типов кнопок статусов */
+.reading-button:hover {
+    background-color: rgba(243, 156, 18, 0.2);
+}
+
+.reading-button:hover i {
+    color: #f39c12;
+}
+
+.want-to-read-button:hover {
+    background-color: rgba(52, 152, 219, 0.2);
+}
+
+.want-to-read-button:hover i {
+    color: #3498db;
+}
+
+.read-button:hover {
+    background-color: rgba(46, 204, 113, 0.2);
+}
+
+.read-button:hover i {
+    color: #2ecc71;
+}
+
+/* Кнопка "Читать сейчас" */
+.read-now-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--main-color), var(--main-color-light));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(199, 21, 133, 0.3);
+    cursor: pointer;
+}
+
+.read-now-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 22px rgba(199, 21, 133, 0.45);
+    background: linear-gradient(135deg, #a3126b, #c22f87);
+}
+
+.read-now-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #6d6d6d, #4f4f4f);
+}
+
+.read-now-button i {
+    font-size: 1.1em;
+}
+
+/* Секция с деталями книги */
+.book-details {
+    flex-grow: 1;
+}
+
+/* Заголовок книги */
+.book-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.book-header h1 {
+    font-size: 2.4rem;
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+/* Автор книги */
+.author {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    display: block;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.author:hover {
+    color: var(--main-color);
+}
+
+/* Информация о публикации */
+.publication-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+}
+
+.separator {
+    opacity: 0.7;
+}
+
+/* Стили для заголовков секций */
+.section-title {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 26px;
+    background: var(--main-color);
+    border-radius: 3px;
+}
+
+.section-title i {
+    color: var(--main-color);
+}
+
+/* Описание книги */
+.book-description-container {
+    margin: 40px 0;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.book-description {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    text-align: justify;
+    hyphens: auto;
+}
+
+.book-description p {
+    margin-bottom: 1.3em;
+}
+
+.book-description p:not(:first-child) {
+    text-indent: 1.8em;
+}
+
+/* Стиль для первой буквы первого абзаца */
+.book-description p.first-para::first-letter {
+    font-size: 2.8em;
+    font-weight: 700;
+    color: var(--main-color);
+    line-height: 0.7;
+    padding-right: 6px;
+    float: left;
+    margin-top: 5px;
+}
+
+/* Двухколоночный макет для больших экранов */
+@media (min-width: 992px) {
+    .book-description {
+        column-count: 2;
+        column-gap: 45px;
+    }
+}
+
+/* Секция прогресса чтения */
+.reading-progress {
+    margin: 40px 0;
+    background: var(--card-bg-light);
+    padding: 30px;
+    border-radius: 15px;
+    border-left: 5px solid var(--main-color);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+/* Визуализация прогресса */
+.progress-visualization {
+    margin-bottom: 30px;
+}
+
+.progress-bar-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* Фоновая полоса прогресса */
+.progress-bar-bg {
+    width: 100%;
+    height: 18px;
+    background-color: #2c2f33;
+    border-radius: 9px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Заполненная часть прогресса */
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 9px;
+    background: linear-gradient(90deg, var(--main-color), var(--main-color-light));
+    position: relative;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+}
+
+/* Анимация волны на прогресс-баре */
+.progress-bar-wave {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0.5;
+    animation: wave 3s linear infinite;
+    transform: translateY(-10px);
+}
+
+/* Эффект искр на прогресс-баре */
+.progress-bar-sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sparkle {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 2s infinite;
+    box-shadow: 0 0 5px white;
+}
+
+@keyframes wave {
+    0% { transform: translateX(-100%) translateY(-10px); }
+    100% { transform: translateX(100%) translateY(-10px); }
+}
+
+@keyframes sparkle {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+/* Процент прогресса */
+.progress-percentage {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+/* Отображение страниц */
+.pages-display {
+    display: flex;
+    align-items: baseline;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.pages-display span {
+    font-weight: 500;
+}
+
+.pages-separator {
+    margin: 0 10px;
+    color: var(--text-secondary);
+}
+
+.pages-label {
+    margin-left: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Элементы управления прогрессом */
+.progress-controls {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.progress-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #31353b;
+    color: var(--text-color);
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+}
+
+.progress-btn:hover {
+    background: var(--main-color);
+    transform: scale(1.12) rotate(5deg);
+    box-shadow: 0 5px 10px rgba(199, 21, 133, 0.35);
+}
+
+.progress-btn:active {
+    transform: scale(1.05) rotate(0deg);
+}
+
+/* Слайдер прогресса */
+.slider-container {
+    flex: 1;
+    position: relative;
+    padding-top: 25px;
+}
+
+.progress-slider {
+    width: 100%;
+    height: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #4a4f56;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.progress-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    border: 3px solid var(--main-color);
+}
+
+.progress-slider::-webkit-slider-thumb:hover {
+    background: var(--main-color);
+    border-color: #f5f5f5;
+    transform: scale(1.15);
+}
+
+/* Подсказка для слайдера */
+.slider-tooltip {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--main-color);
+    color: white;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(199, 21, 133, 0.4);
+    z-index: 5;
+}
+
+.slider-container:hover .slider-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-15px);
+}
+
+/* Группа ввода страницы */
+.page-input-group {
+    display: flex;
+    gap: 12px;
+}
+
+.page-input {
+    flex: 1;
+    padding: 13px 16px;
+    border-radius: 8px;
+    border: 1px solid #4a4f56;
+    background: #2c2f33;
+    color: var(--text-color);
+    font-size: 16px;
+    transition: all 0.2s ease;
+    -moz-appearance: textfield; /* Для Firefox */
+}
+
+/* Убирает стрелки в WebKit-браузерах */
+.page-input[type="number"]::-webkit-inner-spin-button,
+.page-input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.page-input::placeholder {
+    color: #787f8a;
+}
+
+.page-input:focus {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 3px rgba(199, 21, 133, 0.3);
+    outline: none;
+}
+
+/* Кнопка ввода страницы */
+.page-input-btn {
+    padding: 0 22px;
+    background: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    box-shadow: 0 3px 8px rgba(199, 21, 133, 0.25);
+}
+
+.page-input-btn:hover {
+    background: #a3126b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(199, 21, 133, 0.35);
+}
+
+.page-input-btn:active {
+    transform: translateY(0);
+}
+
+.page-input-btn.pulse {
+    animation: pulse 0.8s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* Уведомления */
+.notification {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 16px 32px;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 90%;
+}
+
+.notification.success {
+    background: linear-gradient(to right, var(--success-color), #27ae60);
+}
+
+.notification.error {
+    background: linear-gradient(to right, var(--error-color), #c0392b);
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.notification::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    display: inline-block;
+    font-size: 1.2em;
+}
+
+.notification.success::before {
+    content: "\f00c"; /* check */
+}
+
+.notification.error::before {
+    content: "\f06a"; /* exclamation-circle */
+}
+
+/* Секция отзывов */
+.book-reviews {
+    margin: 50px 0;
+    padding: 30px;
+    background: var(--card-bg-light);
+    border-radius: 15px;
+    border-left: 5px solid var(--main-color);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+.reviews-count {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+/* Сводка рейтинга */
+.rating-summary {
+    display: flex;
+    gap: 40px;
+    margin: 30px 0;
+    padding: 20px;
+    background: var(--review-bg);
+    border-radius: 10px;
+}
+
+.average-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+}
+
+.rating-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1;
+}
+
+.rating-stars {
+    color: var(--rating-color);
+    font-size: 1.2rem;
+    margin: 5px 0;
+    display: flex;
+    gap: 2px;
+    direction: ltr; /* Всегда слева направо */
+}
+
+.rating-count {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* График распределения оценок */
+.rating-bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-label {
+    width: 80px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.bar-container {
+    flex: 1;
+    height: 10px;
+    background: #2c2f33;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--main-color), var(--main-color-light));
+    border-radius: 5px;
+}
+
+/* Форма добавления отзыва */
+.add-review {
+    margin: 30px 0;
+    padding: 20px;
+    background: var(--review-bg);
+    border-radius: 10px;
+}
+
+.add-review h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
+.review-notice {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+/* Общие стили для звезд рейтинга */
+.stars, .review-rating {
+    display: flex;
+    gap: 2px;
+     direction: ltr; /* Всегда слева направо */
+    flex-direction: row; /* Явно указываем направление */
+}
+
+/* Стили для выбора рейтинга */
+.rating-select .stars {
+    direction: rtl;
+    display: flex;
+    gap: 2px;
+    justify-content: flex-end; /* Выровнять все дочерние элементы вправо */
+}
+
+.rating-select .stars input {
+    display: none;
+}
+
+.rating-select .stars label {
+    color: #4a4f56;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: color 0.2s ease;
+}
+
+/* Стиль для выбранных звезд */
+.rating-select .stars input:checked + label,
+.rating-select .stars input:checked ~ input + label {
+    color: var(--rating-color);
+}
+
+/* Стиль для звезд при наведении */
+.rating-select .stars label:hover,
+.rating-select .stars label:hover ~ label {
+    color: var(--rating-color);
+}
+/* Стили для отображения рейтинга в отзывах */
+.review-rating {
+    direction: ltr; /* Всегда слева направо */
+    flex-direction: row ;
+}
+
+.review-rating .full-star {
+    color: var(--rating-color);
+}
+
+.review-rating .empty-star {
+    color: #4a4f56;
+}
+/* Стили для контейнера с кнопками */
+.review-actions {
+    display: flex;
+    gap: 10px; /* Расстояние между кнопками */
+    margin-top: 20px; /* Отступ сверху */
+}
+
+/* Стиль для кнопки удаления отзыва */
+.delete-review-btn {
+    background-color: #e74c3c; /* Красный фон */
+    color: white;
+    border: none;
+    padding: 11px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-review-btn:hover {
+    background-color: #c0392b; /* Темнее красный при наведении */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(231, 76, 60, 0.35);
+}
+
+.delete-review-btn:active {
+    transform: translateY(0);
+}
+
+/* Стиль для кнопки обновления отзыва */
+.submit-review{
+    background-color: #C71585; /* Фиолетовый фон */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-review:hover {
+    background-color: #a3126b; /* Темнее фиолетовый при наведении */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(199, 21, 133, 0.35);
+}
+
+.submit-review:active {
+    transform: translateY(0);
+}
+
+/* Стили для сводки рейтинга */
+.rating-stars {
+    direction: ltr; /* Всегда слева направо */
+}
+
+.rating-stars .full-star {
+    color: var(--rating-color);
+}
+
+.rating-stars .half-star {
+    color: var(--rating-color);
+}
+
+.rating-stars .empty-star {
+    color: #4a4f56;
+}
+
+/* Поле ввода отзыва */
+.add-review textarea {
+    width: 95.5%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #4a4f56;
+    background: #2c2f33;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+}
+
+.add-review textarea:focus {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 3px rgba(199, 21, 133, 0.3);
+    outline: none;
+}
+
+/* Кнопка отправки отзыва */
+.submit-review {
+    padding: 12px 25px;
+    background: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+}
+
+.submit-review:hover {
+    background: #a3126b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(199, 21, 133, 0.35);
+}
+
+/* Список отзывов */
+.reviews-list {
+    margin-top: 30px;
+}
+
+/* Отдельный отзыв */
+.review {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: var(--review-bg);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.review:hover {
+    transform: translateY(-3px);
+}
+
+/* Собственный отзыв пользователя */
+.review.my-review {
+    border-left: 4px solid var(--main-color);
+    background: rgba(44, 47, 51, 0.8);
+}
+
+/* Заголовок отзыва */
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Информация о пользователе */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--main-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.user-name {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Рейтинг в отзыве */
+.review-rating {
+    color: var(--rating-color);
+    display: flex;
+    gap: 2px;
+}
+
+.review-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: auto;
+}
+
+/* Текст отзыва */
+.review-text {
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+/* Действия с отзывом */
+.review-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.review-actions button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s ease;
+}
+
+.review-actions button:hover {
+    color: var(--main-color);
+}
+
+.review-actions button i {
+    font-size: 1em;
+}
+
+/* Сообщение об отсутствии отзывов */
+.no-reviews {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 30px;
+}
+
+/* Адаптивные стили */
+@media (max-width: 992px) {
+    .book-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .book-cover-section {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+        position: static;
+    }
+
+    .book-header h1 {
+        font-size: 2rem;
+    }
+
+    .author {
+        font-size: 1.1rem;
+    }
+
+    .book-description {
+        column-count: 1 !important;
+    }
+
+    .rating-summary {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 15px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .book-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .author {
+        font-size: 1rem;
+    }
+
+    .book-description {
+        font-size: 1rem;
+    }
+
+    .book-description p.first-para::first-letter {
+        font-size: 2.5em;
+    }
+
+    .reading-progress {
+        padding: 20px;
+    }
+
+    .progress-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-input-group {
+        flex-direction: column;
+    }
+
+    .page-input-btn {
+        padding: 12px;
+        width: 100%;
+    }
+
+    .notification {
+        width: 90%;
+        bottom: 20px;
+        padding: 14px 20px;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .review-date {
+        margin-left: 0;
+    }
+}

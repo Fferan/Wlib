@@ -1,0 +1,233 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3 class="footer-title">Наша команда</h3>
+            <div class="developers-list">
+                <a href="https://vk.com/idfferan" target="_blank" class="dev-btn vk-btn-1">
+                    <i class="fab fa-vk"></i> @idfferan
+                </a>
+                <a href="https://vk.com/ittsbicwyhgfh" target="_blank" class="dev-btn vk-btn-2">
+                    <i class="fab fa-vk"></i> @ittsbicwyhgfh
+                </a>
+                <a href="https://vk.com/vixell" target="_blank" class="dev-btn vk-btn-3">
+                    <i class="fab fa-vk"></i> @vixell
+                </a>
+                <a href="https://vk.com/id83628908" target="_blank" class="dev-btn vk-btn-4">
+                    <i class="fab fa-vk"></i> @id83628908
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Wlib | Все права защищены
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background-color: #2c2f33;
+        border-top: 5px solid #C71585;
+        padding: 40px 0 20px;
+        font-family: 'Rubik', sans-serif;
+        color: #f5f5f5;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ff9ec6, transparent);
+        opacity: 0.3;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer-title {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: #ff9ec6;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        position: relative;
+        display: inline-block;
+    }
+
+    .footer-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #C71585, transparent);
+        border-radius: 3px;
+    }
+
+    .developers-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+
+    /* Базовые стили кнопок (исходная версия) */
+    .dev-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        vertical-align: middle;
+        text-decoration: none;
+        font-size: 1rem;
+        font-family: 'Rubik', sans-serif;
+        font-weight: 600;
+        color: #fff;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        border-radius: 50px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform-style: preserve-3d;
+        box-shadow: 0 4px 0 0 rgba(0,0,0,0.2),
+                    0 0 15px rgba(0,0,0,0.2),
+                    inset 0 -3px 0 rgba(0,0,0,0.1),
+                    inset 0 0 10px rgba(255,255,255,0.1);
+        z-index: 1;
+        overflow: hidden;
+        min-width: 180px;
+    }
+
+    /* Улучшенные псевдоэлементы для 3D эффекта */
+    .dev-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .dev-btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: inherit;
+        z-index: -2;
+        box-shadow: inset 0 -3px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Стили для иконок */
+    .dev-btn i {
+        margin-right: 10px;
+        font-size: 1.3rem;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    /* Эффекты при наведении (сохранены улучшения) */
+    .dev-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 0 0 rgba(0,0,0,0.15),
+                    0 0 20px rgba(0,0,0,0.3),
+                    inset 0 -4px 0 rgba(0,0,0,0.15),
+                    inset 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    .dev-btn:hover::before {
+        opacity: 1;
+    }
+
+    .dev-btn:hover i {
+        transform: scale(1.1);
+        text-shadow: 0 0 8px rgba(255,255,255,0.3);
+    }
+
+    .dev-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 0 rgba(0,0,0,0.15),
+                    inset 0 -1px 0 rgba(0,0,0,0.1);
+    }
+
+    /* Исходные цветовые градиенты */
+    .vk-btn-1 {
+        background: linear-gradient(135deg, #b50a9e 0%, #C71585 50%, #e04196 100%);
+    }
+    .vk-btn-1:hover {
+        background: linear-gradient(135deg, #e04196 0%, #C71585 50%, #b50a9e 100%);
+    }
+
+    .vk-btn-2 {
+        background: linear-gradient(135deg, #9e0a8c 0%, #b50a9e 50%, #d11585 100%);
+    }
+    .vk-btn-2:hover {
+        background: linear-gradient(135deg, #d11585 0%, #b50a9e 50%, #9e0a8c 100%);
+    }
+
+    .vk-btn-3 {
+        background: linear-gradient(135deg, #C71585 0%, #e04196 50%, #ff6ba8 100%);
+    }
+    .vk-btn-3:hover {
+        background: linear-gradient(135deg, #ff6ba8 0%, #e04196 50%, #C71585 100%);
+    }
+
+    .vk-btn-4 {
+        background: linear-gradient(135deg, #a0128a 0%, #C71585 50%, #e04196 100%);
+    }
+    .vk-btn-4:hover {
+        background: linear-gradient(135deg, #e04196 0%, #C71585 50%, #a0128a 100%);
+    }
+
+    .footer-bottom {
+        font-size: 0.9rem;
+        color: #b8b8b8;
+        padding-top: 25px;
+        border-top: 1px solid rgba(199, 21, 133, 0.2);
+        position: relative;
+    }
+
+    .footer-bottom::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(199, 21, 133, 0.4), transparent);
+    }
+
+    @media (max-width: 768px) {
+        .developers-list {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dev-btn {
+            width: 80%;
+            max-width: 250px;
+        }
+    }
+</style>

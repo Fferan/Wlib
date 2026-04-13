@@ -1,0 +1,35 @@
+<!-- base.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Wlib{% endblock %}</title>
+    <link rel="icon" href="{% static 'books/img/Wlogo.svg' %}">
+    <link rel="stylesheet" href="{% static 'books/css/main.css' %}">
+
+    {% block extra_head %}
+    <!-- Дополнительные стили или скрипты -->
+    {% endblock %}
+    
+</head>
+<body>
+    <!-- Включаем шапку -->
+    {% include 'books/templ/header.html' %}
+
+    <!-- Основной контент -->
+    
+    {% block content %}
+    <!-- Здесь будет содержимое дочерних шаблонов -->
+    {% endblock %}
+
+    <!-- Подвал -->
+    {% include 'books/templ/footer.html' %}
+
+    <script src="https://kit.fontawesome.com/b8991598b2.js"></script>
+</body>
+
+</html>

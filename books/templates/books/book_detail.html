@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ book.title }} - {{ book.authors|default:"Автор неизвестен" }}
+{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'books/css/book_detail.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <style>
+        #page-background {
+            background-image: url('{% if book.thumbnail %}{{ book.thumbnail }}{% else %}{% static 'books/images/default_book_cover.jpg' %}{% endif %}');
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<div id="page-background"></div>
+<div class="container" data-book-id="{{ book.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
+    <div class="book-container">
+        <aside class="book-cover-section">
+            <!-- Обложка книги -->
+            <div class="book-cover-container">
+                <img id="book-cover"
+                     src="{% if book.thumbnail %}{{ book.thumbnail }}{% else %}{% static 'books/images/default_book_cover.jpg' %}{% endif %}"
+                     alt="Обложка книги {{ book.title }}">
+            </div>
+
+            <!-- Блок закладок (перемещен после обложки) -->
+            {% if user.is_authenticated %}
+            <div class="book-status-container">
+                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                 <button type="button" class="status-main-button" id="status-main-button">
+                     <span id="status-main-text">Добавить в мои книги</span> <i class="fas fa-chevron-down"></i>
+                 </button>
+                 <div class="status-buttons" id="status-buttons">
+                     <button type="button" class="status-btn reading-button" data-status="reading">
+                         <i class="fas fa-book-reader"></i> Читаю
+                     </button>
+                     <button type="button" class="status-btn want-to-read-button" data-status="want-to-read">
+                         <i class="fas fa-bookmark"></i> В планах
+                     </button>
+                     <button type="button" class="status-btn read-button" data-status="read">
+                         <i class="fas fa-check-circle"></i> Прочитано
+                     </button>
+                 </div>
+            </div>
+            {% endif %}
+
+            <!-- Метаинформация о книге -->
+            <div class="book-meta">
+                <!-- Язык -->
+                <div class="meta-item language">
+                    <i class="fas fa-language"></i>
+                    <span>{{ book.language|default:"Неизвестно" }}</span>
+                </div>
+                <div class="meta-item genre">
+                    <i class="fas fa-tag"></i>
+                    <span>{{ book.genre }}</span>
+                </div>
+
+                <!-- Количество страниц -->
+                {% if book.page_count > 0 %}
+                <div class="meta-item page-count">
+                    <i class="fas fa-file-lines"></i>
+                    <span>{{ book.page_count }} стр.</span>
+                </div>
+                {% endif %}
+
+                <!-- ISBN -->
+                <div class="meta-item isbn">
+                    <i class="fas fa-barcode"></i>
+                    <span>ISBN: {{ book.isbn|default:"-" }}</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="book-details">
+            <!-- Заголовок книги -->
+            <header class="book-header">
+                <h1 id="book-title">{{ book.title }}</h1>
+                <a href="#" id="book-author-link" class="author">Автор: {{ book.authors|default:"Неизвестно" }}</a>
+                <div class="publication-info">
+                    <span class="publisher"><i class="fas fa-building"></i> {{ book.publisher|default:"Неизвестно" }}</span>
+                    <span class="separator">•</span>
+                    <span class="year"><i class="fas fa-calendar-alt"></i> {{ book.published_date }}</span>
+                    <span class="separator">•</span>
+                    <span class="pages"><i class="fas fa-file-alt"></i> {{ book.page_count|default:"?" }} стр.</span>
+                </div>
+            </header>
+
+            <!-- Описание книги -->
+            <section class="book-description-container">
+                <h2 class="section-title">Описание</h2>
+                <div class="book-description" id="book-description">
+                    {{ book.description|striptags|linebreaksbr|default:"Описание отсутствует." }}
+                </div>
+            </section>
+
+            <!-- Прогресс чтения -->
+            {% if user.is_authenticated and book.page_count > 0 %}
+            <section class="reading-progress">
+                <h2 class="section-title"> <i class="fas fa-tasks progress-icon"></i> Мой прогресс чтения </h2>
+                <div class="progress-visualization">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-fill" style="width: 0%;">
+                                <div class="progress-bar-wave"></div>
+                                <div class="progress-bar-sparkles"></div>
+                            </div>
+                        </div>
+                        <div class="progress-percentage" id="progress-text">0%</div>
+                    </div>
+                    <div class="pages-display">
+                        <span id="current-page">0</span> <span class="pages-separator">/</span>
+                        <span id="total-pages">{{ book.page_count }}</span>
+                        <span class="pages-label">страниц</span>
+                    </div>
+                </div>
+                <div class="progress-controls">
+                    <button type="button" class="progress-btn" id="decrease-btn" aria-label="Уменьшить страницу">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <div class="slider-container">
+                        <input type="range" id="progress-slider" min="0" max="{{ book.page_count }}" value="0" class="progress-slider">
+                        <div class="slider-tooltip" id="slider-tooltip">0 стр.</div>
+                    </div>
+                    <button type="button" class="progress-btn" id="increase-btn" aria-label="Увеличить страницу">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="page-input-group">
+                    <input type="number" id="page-input" min="0" max="{{ book.page_count }}" placeholder="Номер страницы" class="page-input">
+                    <button type="button" id="update-pages" class="page-input-btn" aria-label="Сохранить страницу">
+                        <i class="fas fa-save"></i> Сохранить
+                    </button>
+                </div>
+            </section>
+            {% elif user.is_authenticated and book.page_count == 0 %}
+            <section class="reading-progress">
+                <p>Информация о количестве страниц отсутствует, отслеживание прогресса недоступно.</p>
+            </section>
+            {% endif %}
+
+            <!-- Отзывы -->
+            <section class="book-reviews">
+                <h2 class="section-title">
+                    <i class="fas fa-comment-alt"></i>
+                    {% if total_reviews > 0 %}
+                        Отзывы читателей <span class="reviews-count">{{ total_reviews }}
+                        {% if total_reviews == 1 %}отзыв{% elif 2 <= total_reviews <= 4 %}отзыва{% else %}отзывов{% endif %}</span>
+                    {% else %}
+                        Будьте первым, кто оставит отзыв
+                    {% endif %}
+                </h2>
+                <div class="rating-summary">
+                    <div class="average-rating">
+                        <div class="rating-value">{{ average_rating|floatformat:1 }}</div>
+                        <div class="rating-stars">
+                            {% for i in "12345" %}
+                                {% with i_num=i|add:0 %}
+                                    {% if average_rating >= i_num %}
+                                        <i class="fas fa-star full-star"></i>
+                                    {% elif average_rating >= i_num|add:-0.5 %}
+                                        <i class="fas fa-star-half-alt half-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star empty-star"></i>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endfor %}
+                        </div>
+                        <div class="rating-count">{{ total_reviews }} оценок</div>
+                    </div>
+                    <div class="rating-bars">
+                        {% for bar in rating_bars %}
+                            <div class="rating-bar">
+                                <span class="rating-label">{{ bar.stars }} звезда</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: {{ bar.percent }}%"></div>
+                                </div>
+                                <span class="rating-count">{{ bar.count }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="add-review">
+                    <h3>Ваш отзыв</h3>
+                    {% if user_review %}
+                    <form method="post" action="{% url 'add_review' book.id %}">
+                        {% csrf_token %}
+                        <div class="rating-select">
+                            <span>Ваша оценка:</span>
+                            <div class="stars">
+                                {% for i in "54321" %}
+                                    <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if user_review.rating == i|add:0 %}checked{% endif %}>
+                                    <label for="star{{ i }}"><i class="fas fa-star"></i></label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <textarea name="text" placeholder="Поделитесь своими впечатлениями о книге..." rows="4">{{ user_review.text }}</textarea>
+                        <div class="review-buttons">
+                            <button type="submit" class="submit-review">Обновить</button>
+                            <button type="button" class="delete-review-btn" data-review-id="{{ user_review.id }}">Удалить</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <form method="post" action="{% url 'add_review' book.id %}">
+                        {% csrf_token %}
+                        <div class="rating-select">
+                            <span>Ваша оценка:</span>
+                            <div class="stars">
+                                {% for i in "54321" %}
+                                    <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}">
+                                    <label for="star{{ i }}"><i class="fas fa-star"></i></label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <textarea name="text" placeholder="Поделитесь своими впечатлениями о книге..." rows="4"></textarea>
+                        <button type="submit" class="submit-review">Опубликовать отзыв</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="reviews-list">
+                    {% for review in reviews %}
+                        <div class="review {% if user.is_authenticated and review.user == user %}my-review{% endif %}">
+                            <div class="review-header">
+                                <div class="user-info">
+                                    <div class="avatar">{{ review.user.username|first|upper }}</div>
+                                    <div class="user-name">{{ review.user.username }}</div>
+                                </div>
+                                <div class="review-rating">
+                                    {% for i in "12345" %}
+                                        {% if i|add:0 <= review.rating %}
+                                            <i class="fas fa-star full-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star empty-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="review-date">{{ review.created_at|date:"d.m.Y" }}</div>
+                            </div>
+                            <div class="review-text">{{ review.text }}</div>
+                        </div>
+                    {% empty %}
+                        <p class="no-reviews">Пока нет отзывов. Будьте первым!</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+<script src="{% static 'books/js/book_detail.js' %}"></script>
+{% endblock %}

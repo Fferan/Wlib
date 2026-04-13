@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <style>
+        /* Дополнительные стили для карусели */
+        .book-carousel {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .book-carousel .slick-list {
+            padding: 20px 0;
+        }
+
+        .book-carousel .slick-slide {
+            margin: 0 10px;
+        }
+
+        .book-carousel .slick-prev,
+        .book-carousel .slick-next {
+            z-index: 1;
+            width: 40px;
+            height: 40px;
+        }
+
+        .book-carousel .slick-prev {
+            left: -50px;
+        }
+
+        .book-carousel .slick-next {
+            right: -50px;
+        }
+
+        .book-carousel .slick-prev:before,
+        .book-carousel .slick-next:before {
+            font-size: 40px;
+            color: #C71585;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<!-- Секции жанров книг -->
+<div class="container">
+    <!-- Жанр 1: Фэнтези -->
+    <div class="genre-container">
+        <h2 class="genre-title">Фэнтези</h2>
+        <div class="fantasy-carousel book-carousel">
+            {% for book in fantasy_books %}
+                <div class="book-card">
+                    <a href="{% url 'book_detail' book.id %}">
+                        <div class="book-image">
+                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                        </div>
+                        <div class="book-info">
+                            <h3>{{ book.title }}</h3>
+                            <p>Автор(ы): {{ book.authors }}</p>
+                            <p>Издатель: {{ book.publisher }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Жанр 2: Детективы -->
+    <div class="genre-container">
+        <h2 class="genre-title">Детективы</h2>
+        <div class="detective-carousel book-carousel">
+            {% for book in detective_books %}
+                <div class="book-card">
+                    <a href="{% url 'book_detail' book.id %}">
+                        <div class="book-image">
+                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                        </div>
+                        <div class="book-info">
+                            <h3>{{ book.title }}</h3>
+                            <p>Автор(ы): {{ book.authors }}</p>
+                            <p>Издатель: {{ book.publisher }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Жанр 3: Манга -->
+    <div class="genre-container">
+        <h2 class="genre-title">Манга</h2>
+        <div class="manga-carousel book-carousel">
+            {% for book in manga_books %}
+                <div class="book-card">
+                    <a href="{% url 'book_detail' book.id %}">
+                        <div class="book-image">
+                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                        </div>
+                        <div class="book-info">
+                            <h3>{{ book.title }}</h3>
+                            <p>Автор(ы): {{ book.authors }}</p>
+                            <p>Издатель: {{ book.publisher }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Жанр 4: Романы -->
+    <div class="genre-container">
+        <h2 class="genre-title">Романы</h2>
+        <div class="romance-carousel book-carousel">
+            {% for book in romance_books %}
+                <div class="book-card">
+                    <a href="{% url 'book_detail' book.id %}">
+                        <div class="book-image">
+                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                        </div>
+                        <div class="book-info">
+                            <h3>{{ book.title }}</h3>
+                            <p>Автор(ы): {{ book.authors }}</p>
+                            <p>Издатель: {{ book.publisher }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="{% static 'books/js/main.js' %}"></script>
+{% endblock %}

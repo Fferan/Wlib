@@ -1,0 +1,36 @@
+# Переменные окружения
+.env
+*.env.bak
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.venv/
+
+# База данных
+db.sqlite3
+
+# Среда разработки
+.vscode/
+.idea/
+*.swp
+*.swo
+.qwen/
+
+# ОС
+.DS_Store
+Thumbs.db
+
+# Django
+staticfiles/
+*.log
+
+# Docker (локальные тома)
+postgres_data/
+
+# Только для Railway
+Procfile
+runtime.txt

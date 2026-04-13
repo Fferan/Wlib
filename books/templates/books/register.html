@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'books/css/register.css' %}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal">
+            <div id="notification" class="notification"></div>
+
+            <div class="logo-container">
+                <a href="{% url 'home' %}" class="logo-link">
+                    <img class="logo" src="{% static 'books/img/logo.svg' %}" alt="Логотип">
+                </a>
+            </div>
+
+            <h2 class="modal-title fade-in">Регистрация</h2>
+
+            <!-- <div class="social-login">
+                <p>Зарегистрироваться через социальные сети</p>
+                <div class="social-buttons">
+                    <button class="social-button vk" onclick="handleSocialAuth('VK')">
+                        <i class="fab fa-vk"></i>
+                    </button>
+                    <button class="social-button google" onclick="handleSocialAuth('Google')">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-button yandex" onclick="handleSocialAuth('Yandex')">
+                        <i class="fab fa-yandex"></i>
+                    </button>
+                </div>
+            </div> -->
+
+            <form method="post" id="register-form">
+                {% csrf_token %}
+                <div class="input-group fade-in">
+                    <input type="text" name="username" id="username"
+                           placeholder="Имя пользователя" required
+                           minlength="3" maxlength="30"
+                           pattern="[a-zA-Z0-9_-]+">
+                    <div class="error-message" id="username-error"></div>
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                </div>
+
+                <div class="input-group fade-in email-checking">
+                    <input type="email" name="email" id="email"
+                           placeholder="Электронная почта" required
+                           maxlength="254">
+                    <div class="error-message" id="email-error"></div>
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                </div>
+
+                <div class="input-group fade-in">
+                    <input type="password" name="password1" id="password1"
+                           placeholder="Пароль" required
+                           minlength="8" maxlength="50"
+                           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,50}$">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password1')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="error-message" id="password-error"></div>
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                </div>
+
+                <div class="input-group fade-in">
+                    <input type="password" name="password2" id="password2"
+                           placeholder="Подтвердите пароль" required>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password2')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="error-message" id="confirm-password-error"></div>
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                </div>
+
+                <button type="submit" class="submit-button fade-in">
+                    <span id="submit-text">Зарегистрироваться</span>
+                    <span id="submit-spinner" style="display:none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+
+            <div class="links">
+                <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'books/js/register.js' %}"></script>
+</body>
+</html>

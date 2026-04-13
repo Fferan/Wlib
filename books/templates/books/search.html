@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Поиск: {{ query }}
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'books/css/search.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="search-header">
+        <h2 style="width: 70%;" id="result-title">Результаты поиска для "{{ query }}"</h2>
+        <div class="sort-container" id="sort-container">
+            <button class="reverse-button" onclick="reverseBooks()">
+                <i class="fa fa-sync-alt"></i>
+            </button>
+            <select class="sort-select" id="sortOption">
+                <option value="pages">Кол-ву страниц</option>
+                <option value="year">Году выхода</option>
+            </select>
+            <button class="sort-button" onclick="sortBooks()">Сортировать</button>
+        </div>
+    </div>
+    
+    <div class="book-container" id="book-container">
+        {% for book in books|slice:":20" %}
+        <a href="{% url 'book_detail' book.id %}" class="book-card">
+            <div class="book-image" style="background-image: url('{{ book.thumbnail }}');"></div>
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p><span class="bold-text">Автор(ы):</span> {{ book.authors }}</p>
+                <p><span class="bold-text">Издатель:</span> {{ book.publisher }}</p>
+                <p><span class="bold-text">Кол-во страниц:</span> {{ book.page_count }}</p>
+                <p><span class="bold-text">Год выхода:</span> {{ book.published_date }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    
+    {% if books|length > 20 %}
+    <div class="load-more-container">
+        <button id="show-all" class="sort-button">Показать все результаты</button>
+    </div>
+    {% endif %}
+
+    <div id="hidden-books" style="display: none;">
+        {% for book in books|slice:"20:" %}
+        <a href="{% url 'book_detail' book.id %}" class="book-card">
+            <div class="book-image" style="background-image: url('{{ book.thumbnail }}');"></div>
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p><span class="bold-text">Автор(ы):</span> {{ book.authors }}</p>
+                <p><span class="bold-text">Издатель:</span> {{ book.publisher }}</p>
+                <p><span class="bold-text">Кол-во страниц:</span> {{ book.page_count }}</p>
+                <p><span class="bold-text">Год выхода:</span> {{ book.published_date }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static 'books/js/search.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    updateBooksCounter();
+    
+    const showAllBtn = document.getElementById('show-all');
+    if (showAllBtn) {
+        showAllBtn.addEventListener('click', function() {
+            const hiddenBooks = document.getElementById('hidden-books');
+            const bookContainer = document.getElementById('book-container');
+            
+            Array.from(hiddenBooks.children).forEach(book => {
+                bookContainer.appendChild(book);
+            });
+            
+            updateBooksCounter();
+            showAllBtn.style.display = 'none';
+        });
+    }
+});
+
+function updateBooksCounter() {
+    const bookContainer = document.getElementById('book-container');
+    const hiddenBooks = document.getElementById('hidden-books');
+    const booksCount = document.getElementById('books-count');
+    
+    if (booksCount) {
+        const totalBooks = bookContainer.children.length + (hiddenBooks ? hiddenBooks.children.length : 0);
+        booksCount.textContent = `${bookContainer.children.length} из ${totalBooks}`;
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя | {{ user.username }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'books/css/profile.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <div class="avatar">{{ user.username|first|upper }}</div>
+            <div class="info">
+                <h2>{{ user.username }}</h2>
+                <p>Email: {{ user.email }}</p>
+                <!-- Добавляем кнопку "Сменить пароль" -->
+                <a href="{% url 'password_change' %}" class="change-password-btn">
+                    <i class="fas fa-key"></i> Пароль
+                </a>
+                <button class="logout-btn" onclick="location.href='{% url 'logout' %}'">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(0)">Прочитано</div>
+            <div class="tab" onclick="switchTab(1)">Читаю</div>
+            <div class="tab" onclick="switchTab(2)">В планах</div>
+        </div>
+        <div class="content active" id="tab-0">
+            <h3>Прочитанные книги</h3>
+            <div class="book-list">
+                {% if read_books %}
+                    {% for book in read_books %}
+                    <a href="{% url 'book_detail' book.id %}" class="profile-book-item" data-status="read">
+                        <div class="book-content">
+                            <div class="profile-book-cover" style="background-image: url('{% if book.thumbnail %}{{ book.thumbnail }}{% else %}{% static 'books/images/default_book_cover.jpg' %}{% endif %}');"></div>
+                            <div class="book-details">
+                                <h4>{{ book.title }}</h4>
+                                <p>{{ book.authors }}</p>
+                                <div class="profile-progress-container">
+                                    <div class="profile-progress-bar" style="width: 100%;"></div>
+                                </div>
+                                <div class="progress-text">100% прочитано</div>
+                                <button class="remove-book-btn" data-book-id="{{ book.id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        Здесь пока нет прочитанных книг
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="content" id="tab-1">
+            <h3>Сейчас читаю</h3>
+            <div class="book-list">
+                {% if reading_books %}
+                    {% for book in reading_books %}
+                    <a href="{% url 'book_detail' book.id %}" class="profile-book-item" data-status="reading">
+                        <div class="book-content">
+                            <div class="profile-book-cover" style="background-image: url('{% if book.thumbnail %}{{ book.thumbnail }}{% else %}{% static 'books/images/default_book_cover.jpg' %}{% endif %}');"></div>
+                            <div class="book-details">
+                                <h4>{{ book.title }}</h4>
+                                <p>{{ book.authors }}</p>
+                                <div class="profile-progress-container">
+                                    <div class="profile-progress-bar" style="width: {{ book.progress_percent }}%;"></div>
+                                </div>
+                                <div class="progress-text">{{ book.progress_percent }}% прочитано ({{ book.progress }}/{{ book.page_count }} стр.)</div>
+                                <button class="remove-book-btn" data-book-id="{{ book.id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-book-reader"></i>
+                        Вы пока не читаете ни одной книги
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="content" id="tab-2">
+            <h3>Планы на чтение</h3>
+            <div class="book-list">
+                {% if want_to_read_books %}
+                    {% for book in want_to_read_books %}
+                    <a href="{% url 'book_detail' book.id %}" class="profile-book-item" data-status="planned">
+                        <div class="book-content">
+                            <div class="profile-book-cover" style="background-image: url('{% if book.thumbnail %}{{ book.thumbnail }}{% else %}{% static 'books/images/default_book_cover.jpg' %}{% endif %}');"></div>
+                            <div class="book-details">
+                                <h4>{{ book.title }}</h4>
+                                <p>{{ book.authors }}</p>
+                                <div class="profile-progress-container">
+                                    <div class="profile-progress-bar" style="width: {{ book.progress_percent }}%;"></div>
+                                </div>
+                                <div class="progress-text">{{ book.progress_percent }}% прочитано ({{ book.progress }}/{{ book.page_count }} стр.)</div>
+                                <button class="remove-book-btn" data-book-id="{{ book.id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        У вас пока нет книг в планах на чтение
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'books/js/profile.js' %}"></script>
+</body>
+</html>
+{% endblock %}

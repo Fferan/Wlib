@@ -1,0 +1,236 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1d1f21;
+    color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    color: #C71585;
+}
+
+/* Заголовок жанра */
+.genre-title {
+    font-size: 50px;
+    margin: 20px 0;
+}
+
+/* Шапка */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1%;
+    background-color: #2c2f33;
+    border-bottom: 5px solid #C71585;
+    vertical-align: center;
+    position: relative;
+    padding-right: 40px;
+    padding-left: 35px;
+}
+
+.container {
+    height: 100%;
+    width: 90%;
+    margin: auto;
+    flex: 1;
+}
+
+/* Поиск */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #1d1f21 !important;
+    height: 40px;
+    border-radius: 40px;
+    padding-left: 15px;
+    flex-grow: 1;
+    max-width: 600px;
+    margin: 0 20px;
+}
+
+.search-txt {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 90%;
+}
+
+.search-form {
+    width: 100%;
+}
+
+/* Это нужно, чтобы автозаполнение браузера не ломало форматирование */
+.search-box .search-txt:-webkit-autofill,
+.search-box .search-txt:-webkit-autofill:hover,
+.search-box .search-txt:-webkit-autofill:focus,
+.search-box .search-txt:-webkit-autofill:active {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1d1f21 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.search-box .search-txt:-moz-autofill {
+    color: white !important;
+    background-color: #1d1f21 !important;
+}
+
+/* Кнопка пользователя */
+.header-btn {
+    color: #C71585;
+    float: right;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #1d1f21;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    border: 2px solid #C71585;
+    cursor: pointer;
+}
+
+/* Футер */
+.footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3% 0;
+    background-color: #2c2f33;
+    border-top: 5px solid #C71585;
+    vertical-align: center;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Стили для карусели */
+.swiper {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0px;
+}
+
+/* Стили для обертки слайдов */
+.swiper-wrapper {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+/* Стили для слайда */
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #b50a9e;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для карточки книги */
+.book-card {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    width: 160px; /* Фиксированная ширина карточки */
+    height: 300px; /* Фиксированная высота карточки */
+    position: relative;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px; /* Отступ между карточками */
+    overflow: hidden; /* Скрыть лишнее содержимое */
+}
+
+/* Фиолетовая полоска при наведении */
+.book-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #C71585;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover::after {
+    transform: scaleX(1);
+}
+
+/* Анимация изображения и текста при наведении */
+.book-card:hover .book-image {
+    transform: translateY(-5px); /* Сдвиг изображения вверх */
+}
+
+.book-card:hover .book-info {
+    transform: translateY(-5px); /* Сдвиг текста вверх */
+}
+
+.book-image {
+    width: 160px;
+    height: 220px;
+    margin: 0 auto 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 4px;
+    background: transparent; /* убираем фон */
+}
+
+.book-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Стили для информации о книге */
+.book-info {
+    margin-top: 10px;
+    transition: transform 0.3s ease;
+}
+
+.book-info h3 {
+    font-size: 16px;
+    margin: 5px 0;
+    white-space: nowrap; /* Запрет переноса текста */
+    overflow: hidden; /* Скрыть лишний текст */
+    text-overflow: ellipsis; /* Добавить многоточие */
+}
+
+.book-info p {
+    font-size: 14px;
+    margin: 5px 0;
+    white-space: nowrap; /* Запрет переноса текста */
+    overflow: hidden; /* Скрыть лишний текст */
+    text-overflow: ellipsis; /* Добавить многоточие */
+}
+
+/* Убираем подсветку ссылок внутри карточек книг */
+.book-card a {
+    text-decoration: none; /* Убираем подчеркивание */
+    color: inherit; /* Наследуем цвет текста */
+}
+
+.book-card a:hover {
+    text-decoration: none; /* Убираем подчеркивание при наведении */
+    color: inherit; /* Наследуем цвет текста при наведении */
+}
